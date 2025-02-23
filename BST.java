@@ -74,6 +74,57 @@ class BST {
         return node; 
     }
 
+    // BST traversal Pre-order traversal
+    public void preOrder() {
+        System.out.print("Pre-Order: ");
+        preOrder(root);
+        System.out.println();
+    }
+
+    private void preOrder(Node node) {
+
+        if (node == null) {
+            return;
+        }
+        System.out.print(node.value+" ");
+        preOrder(node.left);
+        preOrder(node.right);
+    }
+
+
+    // BST traversal In-order traversal
+    public void inOrder() {
+        System.out.print("In-Order: ");
+        inOrder(root);
+        System.out.println();
+    }
+
+    private void inOrder(Node node) {
+
+        if (node == null) {
+            return;
+        }
+        inOrder(node.left);
+        System.out.print(node.value+" ");
+        inOrder(node.right);
+    }
+
+    // BST traversal post-order traversal
+    public void postOrder() {
+        System.out.print("Post-Order: ");
+        inOrder(root);
+        System.out.println();
+    }
+
+    private void postOrder(Node node) {
+
+        if (node == null) {
+            return;
+        }
+        postOrder(node.left);
+        postOrder(node.right);
+        System.out.print(node.value+" ");
+    }
     //Check tree is balanced or not (a BST is balanced if the height difference 
     // of nodes at same level is lessthan or equal to one then the tree is balanced)
 
@@ -81,8 +132,11 @@ class BST {
     public static void main(String[] args) {
         
         BST tree = new BST();
-        int[] nums = {1, 2, 3, 4, 5, 6};
+        int[] nums = {8, 2, 3, 0, 4, 5, 1, 6};
         tree.populate(nums);
         tree.display();
+        tree.preOrder();
+        tree.inOrder();
+        tree.postOrder();
     }
 }
