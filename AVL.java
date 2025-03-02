@@ -9,7 +9,7 @@ class AVL {
 
         Node(int value) {
             this.value = value;
-            this.height = 0;
+            this.height = 1;
         }
     }
 
@@ -50,15 +50,74 @@ class AVL {
         }
 
         node.height = Math.max(height(node.left), height(node.right)) + 1;
+        return rotate(node);
+    }
+
+    //Rotate function this function checks and 
+    //rotates the tree/sub-tree for each non-balancing input
+    public Node rotate(Node node) {
+
+        if(height(node.left) - height(node.right) > 1) {
+            //Left heavy
+
+            if(height(node.left.left) - height(node.left.right) > 0 ) {
+                //Left-Left case
+                return rightRotate(node);
+            }
+            if(height(node.left.left) - height(node.left.right) < 0 ) {
+                //Left-Right case
+                node.left = leftRotate(node.left);
+                return rightRotate(node);
+            }
+        }
+
+        if(height(node.left) - height(node.right) < -1) {
+            //Right heavy
+
+            if(height(node.right.right) - height(node.right.left) > 0 ) {
+                //Right-Right case
+                return leftRotate(node);
+            }
+            if(height(node.right.right) - height(node.right.left) < 0 ) {
+                //Right-Left case
+                node.right = rightRotate(node.right);
+                return leftRotate(node);
+            }
+        }
+
+
         return node;
+    }
+
+    private Node leftRotate(Node node) {
+        Node c = node;
+        Node p = c.right;
+        Node t = p.left;
+
+        p.left = c;
+        c.right = t;
+        
+        c.height = Math.max(height(c.left), height(c.right)) + 1;
+        p.height = Math.max(height(p.left), height(p.right)) + 1;
+        return p;
+    }
+    private Node rightRotate(Node node) {
+        Node p = node;
+        Node c = p.left;
+        Node t = c.right;
+
+        c.right = p;
+        p.left = t;
+        
+        c.height = Math.max(height(c.left), height(c.right)) + 1;
+        p.height = Math.max(height(p.left), height(p.right)) + 1;
+        return c;
     }
 
     public static void main(String[] args) {
         AVL tree = new AVL();
-        tree.insert(2);
-        tree.insert(4);
-        tree.insert(6);
-        tree.insert(1);
+        System.out.println();
+        tree.populate(100);
         System.out.println(tree.height());
     }
 }
