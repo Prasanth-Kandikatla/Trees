@@ -39,11 +39,42 @@ public class SegmentTree {
 
     //Display function
     public void display() {
+        display(this.root);
+    }
+    private void display(Node node) {
+        String str = "";
+        //for printinh left child
+        if(node.left != null) {
+            str = str + "Interval is ["+ node.left.startInterval + ", "+ node.left.endInterval +"] and data: "+ node.left.data + " => ";
+        } else {
+            str = str + "no left child, ";
+        }
+        //for printintg current node
+        str = str + "Interval is ["+ node.startInterval + ", "+ node.endInterval +"] and data: "+ node.data + " => ";
+        //for printing right child
+        if(node.right != null) {
+            str = str + "Interval is ["+ node.right.startInterval + ", "+ node.right.endInterval +"] and data: "+ node.right.data;
+        } else {
+            str = str + "no right child ";
+        }
+        System.out.println(str);
+
+        if(node.left != null) {
+            display(node.left);
+        }
+        if(node.right != null) {
+            display(node.right);
+        }
+    }
+
+    //Query function which is reason for O(log N) time complixity
+    public int query(int qsi, int qei) {
         
     }
 
     public static void main(String[] args) {
-        int[] arr = {3,8,7,6,-2,-8,4,9};
+        int[] arr = {3,8,7,4};
         SegmentTree tree = new SegmentTree(arr);
+        tree.display();
     }
 }
