@@ -69,12 +69,43 @@ public class SegmentTree {
 
     //Query function which is reason for O(log N) time complixity
     public int query(int qsi, int qei) {
-        
+        return this.query(root, qsi, qei);
+    }
+
+    private int query(Node node, int qsi, int qei) {
+        //node intervals lies inside query interval hence consider all the node data
+        if(node.startInterval >= qsi && node.endInterval <= qei) {
+            return node.data;
+        } else if (node.startInterval > qei || node.endInterval < qsi) {
+            return 0;
+        }
+        else {
+            return this.query(node.left, qsi, qei) + this.query(node.right, qsi, qei);
+        }
+    }
+
+    //Update  a value at a particular index
+    public void update(int index, int value) {
+        this.root.data = update(root, index, value);
+    }
+    private int update(Node node, int index, int value) {
+        if(index > node.startInterval && index < node.endInterval) {
+            if(index == node.startInterval) {
+                node.data = value;
+                return node.data;
+            } else {
+                int leftAns = update(node.left, index, value);
+                int rightAns = update(node.right, index, value);
+                node.data = leftAns + rightAns;
+                return node.data;
+            }
+        }
+        return node.data;
     }
 
     public static void main(String[] args) {
         int[] arr = {3,8,7,4};
         SegmentTree tree = new SegmentTree(arr);
-        tree.display();
+        System.out.println(tree.query(1,3));
     }
 }
